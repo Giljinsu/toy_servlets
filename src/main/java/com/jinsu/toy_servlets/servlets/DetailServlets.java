@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.jinsu.toy_servlets.dao.Survey;
-import com.jinsu.toy_servlets.dao.Survey_copy;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -20,7 +19,7 @@ public class DetailServlets extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Survey survey = new Survey();
-        Survey_copy survey = new Survey_copy();
+        Survey survey = new Survey();
         ArrayList<HashMap> surveyList = survey.getList();
         // int page = 0;
         int page =  Integer.parseInt(request.getParameter("order"));;

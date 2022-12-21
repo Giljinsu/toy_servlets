@@ -1,4 +1,4 @@
-package com.jinsu.toy_servlets.dao;
+package com.jinsu.toy_servlets.dao.backup;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,13 +6,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Survey_copy {
+import com.jinsu.toy_servlets.dao.Commons;
+
+public class Survey {
     public ArrayList<HashMap> getList() {
         Commons commons = new Commons();
         Statement questionsStatement = commons.getStatement();
         Statement answersStatement = commons.getStatement();
         Statement qaLinkStatement = commons.getStatement();
-        String questionUid_compare = null;
+        String questionUid_compare = "";
         String query =""; // Answer 리스트
         HashMap<String, Object> question = null;
         ArrayList<HashMap> surveyList = new ArrayList<>();
@@ -22,25 +24,18 @@ public class Survey_copy {
             // 문항 답항 연결
             query = "SELECT * FROM answers ORDER BY QUESTIONS_UID;";
             ResultSet qaLinkresultSet = qaLinkStatement.executeQuery(query);
-            ArrayList<String> answers = new ArrayList<>();
-            // String[][] answerList = new String[10][10];
-            ArrayList<ArrayList> answerList = new ArrayList<>();
+            // ArrayList<String> answers = new ArrayList<>();
+            String[][] answerList = new String[10][10];
             int answerNum=0;
             int questionNum =0;
             while(qaLinkresultSet.next()) {
                 String questionUid = qaLinkresultSet.getString("QUESTIONS_UID");
                 if(!questionUid.equals(questionUid_compare)) {
-                    if(questionUid_compare!= null) {
-                        answerList.add(answers);
-                        answers = new ArrayList<>();
-                    }
                     answerNum = 0;
                     questionNum++;
-                    answers.add(qaLinkresultSet.getString("EXAMPLE_UID"));
-                    // answerList[questionNum-1][answerNum] = qaLinkresultSet.getString("EXAMPLE_UID");
+                    answerList[questionNum-1][answerNum] = qaLinkresultSet.getString("EXAMPLE_UID");
                 } else {
-                //    answerList[questionNum-1][answerNum] = qaLinkresultSet.getString("EXAMPLE_UID");
-                    answers.add(qaLinkresultSet.getString("EXAMPLE_UID"));
+                   answerList[questionNum-1][answerNum] = qaLinkresultSet.getString("EXAMPLE_UID");
                 }
                 questionUid_compare = questionUid;
                 
@@ -52,14 +47,9 @@ public class Survey_copy {
                     String exmple_uid = resultSetAnswer.getString("EXAMPLE_UID");
                     String example = resultSetAnswer.getString("EXAMPLE");
                     // String orders = resultSetAnswer.getString("ORDERS");
-                    if(!answers.isEmpty()){
-                        if(answers.get(answerNum).equals(exmple_uid)) {
-                            answers.set(answerNum, example);
-                        }
+                    if(answerList[questionNum-1][answerNum].equals(exmple_uid)) {
+                        answerList[questionNum-1][answerNum] = example;
                     }
-                }
-                if(qaLinkresultSet.isLast()) {
-                    answerList.add(answers);
                 }
 
                 answerNum++;
@@ -71,9 +61,9 @@ public class Survey_copy {
             int i=0;
             while(resultSet.next()) {
                 question = new HashMap<>();
-                ArrayList<Object> question_answers = new ArrayList<>();
-                    for(int j=0; j<answerList.get(i).size(); j++) {
-                        question_answers.add(answerList.get(i).get(j));
+                ArrayList<String> question_answers = new ArrayList<>();
+                    for(int j=0; j<answerList[i].length; j++) {
+                        question_answers.add(answerList[i][j]);
                     }
                 HashMap<String, Object> survey = new HashMap<>();
                 question.put("ORDERS", resultSet.getString("ORDERS"));
