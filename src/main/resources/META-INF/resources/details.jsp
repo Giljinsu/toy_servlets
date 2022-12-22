@@ -8,6 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
     <%
@@ -17,12 +19,12 @@
 
     %>
     
-    <div>
+    <div class="container border border-5">
         <!-- buttons -->
         <form action="/poll/PollServlet" method="get">
             <div class="buttons">
-                <button id="prev" name="order" value="<%=((int)order-1)%>">Prev</button>
-                <button id="next" name="order" value="<%=((int)order+1)%>">Next</button>
+                <button class="btn btn-primary" id="prev" name="order" value="<%=((int)order-1)%>">Prev</button>
+                <button class="btn btn-primary" id="next" name="order" value="<%=((int)order+1)%>">Next</button>
             </div>
         </form>
         <!-- poll contents -->

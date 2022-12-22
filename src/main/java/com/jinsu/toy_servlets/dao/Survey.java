@@ -52,7 +52,7 @@ public class Survey {
                     // String orders = resultSetAnswer.getString("ORDERS");
                     if(!answers.isEmpty()){
                         if(answers.get(answerNum).equals(exmple_uid)) {
-                            answers.set(answerNum, example);
+                            answers.set(answerNum, "("+(answerNum+1)+") "+example); // 번호+ UID를 답항으로 바꿔줌
                         }
                     }
                 }
