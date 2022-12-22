@@ -29,7 +29,7 @@
         </form>
         <!-- poll contents -->
         <div id="poll-contents">
-            <div>
+            <div class="fs-5 mb-2 mt-2">
             <%=question.get("ORDERS")+". "+question.get("QUESTIONS")%>
             </div>
             <% for(int i=0; i<question_answers.size(); i++) {%>
